@@ -17,9 +17,11 @@ const About = () => {
         />
         <div className="flex flex-col justify-center gap-6 text-sm text-gray-600 md:w-2/4">
           <p>
-            Prescripto makes healthcare simple and accessible. Book doctor
-            appointments effortlessly and keep your health records organized,
-            all in one secure place.
+            Welcome to Prescripto, your trusted partner in managing your
+            healthcare needs conveniently and efficiently. At Prescripto, we
+            understand the challenges individuals face when it comes to
+            scheduling doctor appointments and managing their health records.
+            cange this with better meaning
           </p>
           <p>
             Prescripto is committed to excellence in healthcare technology. We
