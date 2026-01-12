@@ -25,7 +25,20 @@ const Doctors = () => {
     <div>
       <p className="text-gray-600">Browse through the doctors specialist.</p>
       <div className="flex flex-col items-start gap-5 mt-5 sm:flex-row">
-        <div className="flex flex-col gap-4 text-sm text-grey-600">
+        <button
+          className={`py-1 px-3 border rounded text-sm transition-all sm:hidden ${
+            showFilter ? "bg-primary text-white" : ""
+          }`}
+          onClick={() => setShowFilter((prev) => !prev)}
+        >
+          filters
+        </button>
+
+        <div
+          className={`flex-col gap-4 text-sm text-grey-600 ${
+            showFilter ? "flex" : "hidden sm:flex"
+          }`}
+        >
           <p
             onClick={() =>
               speciality === " General physician"
