@@ -5,19 +5,19 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { backendUrl, token, setToken } = useContext(AppContext);
   const [state, setState] = useState("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const navigate = useNavigate();
 
-  const { token, setToken, backendurl } = useContext(AppContext);
-
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    console.log("CREATE ACCOUNT CLICKED");
     try {
       if (state === "signup") {
-        const { data } = await axios.post(backendurl + "/api/user/register", {
+        const { data } = await axios.post(backendUrl + "/api/user/register", {
           name,
           email,
           password,
@@ -30,7 +30,7 @@ const Login = () => {
           toast.error(data.message);
         }
       } else {
-        const { data } = await axios.post(backendurl + "/api/user/login", {
+        const { data } = await axios.post(backendUrl + "/api/user/login", {
           email,
           password,
         });
@@ -98,10 +98,11 @@ const Login = () => {
         </div>
         <button
           type="submit"
-          className="w-full py-2 text-base text-white rounded-md bg-primaryColor"
+          className="w-full py-2 text-base text-white bg-blue-600 rounded-md"
         >
           {state === "signup" ? "Create Account" : "Login"}
         </button>
+
         {state === "signup" ? (
           <p>
             Already have an account?{" "}
