@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 const Doctors = () => {
   const { speciality } = useParams();
   const [filterDoc, setFilterDoc] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
+
   const { doctors } = useContext(AppContext);
   const navigate = useNavigate();
 
