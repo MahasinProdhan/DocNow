@@ -7,7 +7,7 @@ import { useEffect } from "react";
 // import { assets } from "../assets/assets";
 const MyAppointments = () => {
   // const { doctors } = useContext(AppContext); was used before creating the api to display dummy appointment data
-  const { backendUrl, token } = useContext(AppContext);
+  const { backendUrl, token, getDoctorsData } = useContext(AppContext);
 
   const [appointments, setAppointments] = useState([]);
 
@@ -49,9 +49,30 @@ const MyAppointments = () => {
     }
   };
 
+  const cancelAppointment = async (appointmentId) => {
+    try {
+      const { data } = await axios.post(
+        backendUrl + "/api/user/cancel-appointment",
+        { appointmentId },
+        { headers: { token } },
+      );
+
+      if (data.success) {
+        toast.success(data.message);
+        getUserAppointments();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     if (token) {
       getUserAppointments();
+      getDoctorsData();
     }
   }, [token]);
 
@@ -90,12 +111,26 @@ const MyAppointments = () => {
             </div>
             <div></div>
             <div className="flex flex-col justify-end gap-2">
-              <button className="py-2 text-sm text-center transition-all duration-300 border rounded text-stone-500 sm:min-w-48 hover:bg-primary hover:text-white">
-                Pay Online
-              </button>
-              <button className="py-2 text-sm text-center transition-all duration-300 border rounded text-stone-500 sm:min-w-48 hover:bg-red-600 hover:text-white">
-                Cancel Appointment
-              </button>
+              {!item.cancelled && (
+                <button className="py-2 text-sm text-center transition-all duration-300 border rounded text-stone-500 sm:min-w-48 hover:bg-primary hover:text-white">
+                  Pay Online
+                </button>
+              )}
+
+              {!item.cancelled && (
+                <button
+                  onClick={() => cancelAppointment(item._id)}
+                  className="py-2 text-sm text-center transition-all duration-300 border rounded text-stone-500 sm:min-w-48 hover:bg-red-600 hover:text-white"
+                >
+                  Cancel Appointment
+                </button>
+              )}
+
+              {item.cancelled && (
+                <button className="py-2 text-red-500 border border-red-500 rounded sm:min-w-48">
+                  Appointment cancelled
+                </button>
+              )}
             </div>
           </div>
         ))}
