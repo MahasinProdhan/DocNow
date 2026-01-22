@@ -1,8 +1,59 @@
 import React, { useContext } from "react";
 import { AppContext } from "../context/AppContext";
-import { assets } from "../assets/assets";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
+// import { assets } from "../assets/assets";
 const MyAppointments = () => {
-  const { doctors } = useContext(AppContext);
+  // const { doctors } = useContext(AppContext); was used before creating the api to display dummy appointment data
+  const { backendUrl, token } = useContext(AppContext);
+
+  const [appointments, setAppointments] = useState([]);
+
+  const months = [
+    "",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "July",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const slotDateFormat = (slotDate) => {
+    const dateArray = slotDate.split("_");
+    return (
+      dateArray[0] + " " + months[Number(dateArray[1])] + " " + dateArray[2]
+    );
+  };
+
+  const getUserAppointments = async () => {
+    try {
+      const { data } = await axios.get(backendUrl + "/api/user/appointments", {
+        headers: { token },
+      });
+
+      if (data.success) {
+        setAppointments(data.appointments.reverse());
+        console.log(data.appointments);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getUserAppointments();
+    }
+  }, [token]);
 
   return (
     <div>
@@ -10,25 +61,31 @@ const MyAppointments = () => {
         My Appointments
       </p>
       <div>
-        {doctors.slice(0, 3).map((item, index) => (
+        {appointments.map((item, index) => (
           <div
             className="grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-2 border-b"
             key={index}
           >
             <div>
-              <img className="w-32 bg-indigo-50" src={item.image} alt="" />
+              <img
+                className="w-32 bg-indigo-50"
+                src={item.docData.image}
+                alt=""
+              />
             </div>
             <div className="flex-1 text-sm text-zinc-600">
-              <p className="font-semibold text-neutral-800">{item.name}</p>
-              <p>{item.speciality}</p>
+              <p className="font-semibold text-neutral-800">
+                {item.docData.name}
+              </p>
+              <p>{item.docData.speciality}</p>
               <p className="mt-1 font-medium text-zinc-700">Adress: </p>
-              <p className="text-xs">{item.address.line1}</p>
-              <p className="text-xs">{item.address.line2}</p>
+              <p className="text-xs">{item.docData.address.line1}</p>
+              <p className="text-xs">{item.docData.address.line2}</p>
               <p className="mt-1 text-xs">
                 <span className="text-sm font-medium text-neutral-700">
                   Date & Time:{" "}
                 </span>{" "}
-                24, June, 2004 | 8:30 PM
+                {slotDateFormat(item.slotDate)} | {item.slotTime}
               </p>
             </div>
             <div></div>
