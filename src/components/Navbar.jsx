@@ -17,12 +17,15 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center justify-between py-4 mb-5 text-sm border-b border-b-gray-400">
-      <img
-        onClick={() => navigate("/")}
-        className="cursor-pointer w-44"
-        src={assets.logo}
-        alt=""
-      />
+      <div className="flex items-center h-14">
+        <img
+          onClick={() => navigate("/")}
+          className="object-contain w-auto h-12 cursor-pointer"
+          src={assets.logo}
+          alt="Logo"
+        />
+      </div>
+
       <ul className="items-start hidden gap-5 font-medium md:flex ">
         <NavLink to="/">
           <li className="py-1">HOME</li>
