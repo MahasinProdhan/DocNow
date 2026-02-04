@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { assets } from "../assets/assets";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import { assets } from "../assets/assets";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -15,46 +15,58 @@ const Navbar = () => {
     setShowMenu(false);
   };
 
+  const menuItems = [
+    { name: "HOME", path: "/" },
+    { name: "ALL DOCTORS", path: "/doctors" },
+    { name: "ABOUT", path: "/about" },
+    { name: "CONTACT", path: "/contact" },
+  ];
+
   return (
-    <div className="relative flex items-center justify-between py-4 mb-5 text-sm border-b border-b-gray-400">
-      {/* Logo */}
+    <div className="relative flex items-center py-4 mb-5 text-sm border-b border-gray-400">
+      {/* LEFT : LOGO */}
       <img
-        onClick={() => navigate("/")}
-        className="object-contain h-12 cursor-pointer"
         src={assets.logo}
         alt="Logo"
+        onClick={() => navigate("/")}
+        className="object-contain h-12 cursor-pointer"
       />
 
-      {/* Desktop Menu */}
-      <ul className="items-start hidden gap-6 font-medium md:flex">
-        <NavLink to="/">
-          <li className="py-1">HOME</li>
-        </NavLink>
-        <NavLink to="/doctors">
-          <li className="py-1">ALL DOCTORS</li>
-        </NavLink>
-        <NavLink to="/about">
-          <li className="py-1">ABOUT</li>
-        </NavLink>
-        <NavLink to="/contact">
-          <li className="py-1">CONTACT</li>
-        </NavLink>
+      {/* CENTER : DESKTOP MENU */}
+      <ul className="absolute hidden gap-8 font-semibold -translate-x-1/2 left-1/2 md:flex">
+        {menuItems.map((item) => (
+          <NavLink key={item.path} to={item.path}>
+            {({ isActive }) => (
+              <li className="flex flex-col items-center cursor-pointer">
+                <span className="inline-block">
+                  {item.name}
+                  <span
+                    className={`block h-0.5 bg-primary mt-1 ${
+                      isActive ? "w-full" : "w-0"
+                    }`}
+                  ></span>
+                </span>
+              </li>
+            )}
+          </NavLink>
+        ))}
       </ul>
 
-      {/* Right Section */}
+      {/* RIGHT : ACTIONS */}
       <div className="flex items-center gap-4 ml-auto">
-        {/* Desktop User / Button */}
+        {/* USER (DESKTOP) */}
         {token && userData ? (
           <div className="relative items-center hidden gap-2 cursor-pointer md:flex group">
             <img
-              className="object-cover w-10 h-10 rounded-full"
               src={userData.image}
-              alt=""
+              alt="user"
+              className="object-cover rounded-full w-9 h-9"
             />
-            <img className="w-2.5" src={assets.dropdown_icon} alt="" />
+            <img src={assets.dropdown_icon} alt="" className="w-2.5" />
 
-            <div className="absolute right-0 z-20 hidden pt-8 top-full group-hover:block">
-              <div className="flex flex-col gap-4 p-4 text-gray-600 bg-white rounded min-w-48">
+            {/* Dropdown */}
+            <div className="absolute right-0 z-20 hidden pt-6 top-full group-hover:block">
+              <div className="flex flex-col gap-3 p-4 bg-white rounded shadow min-w-44">
                 <p
                   onClick={() => navigate("/my-profile")}
                   className="cursor-pointer hover:text-black"
@@ -65,7 +77,7 @@ const Navbar = () => {
                   onClick={() => navigate("/my-appointments")}
                   className="cursor-pointer hover:text-black"
                 >
-                  My Appointment
+                  My Appointments
                 </p>
                 <p onClick={logout} className="cursor-pointer hover:text-black">
                   Logout
@@ -82,51 +94,43 @@ const Navbar = () => {
           </button>
         )}
 
-        {/* Hamburger Icon (Mobile) */}
+        {/* HAMBURGER (MOBILE) */}
         <img
-          onClick={() => setShowMenu(true)}
           src={assets.menu_icon}
           alt="menu"
-          className="w-6 mr-1 cursor-pointer md:hidden"
+          className="w-6 cursor-pointer md:hidden"
+          onClick={() => setShowMenu(true)}
         />
       </div>
 
-      {/* ---------------- Mobile Menu ---------------- */}
+      {/* ---------------- MOBILE MENU ---------------- */}
       <div
         className={`${
           showMenu ? "fixed w-full" : "h-0 w-0"
-        } md:hidden right-0 top-0 bottom-0 overflow-hidden z-30 bg-white transition-all duration-300`}
+        } md:hidden right-0 top-0 bottom-0 bg-white z-30 overflow-hidden transition-all duration-300`}
       >
         {/* Mobile Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b">
+          <img src={assets.logo} alt="Logo" className="h-10" />
           <img
-            onClick={() => navigate("/")}
-            className="h-10 cursor-pointer"
-            src={assets.logo}
-            alt="Logo"
-          />
-          <img
-            className="w-8 cursor-pointer"
             src={assets.cross_icon}
             alt="close"
+            className="w-8 cursor-pointer"
             onClick={() => setShowMenu(false)}
           />
         </div>
 
         {/* Mobile Links */}
-        <ul className="flex flex-col items-center gap-6 mt-10 text-lg font-medium">
-          <NavLink onClick={() => setShowMenu(false)} to="/">
-            HOME
-          </NavLink>
-          <NavLink onClick={() => setShowMenu(false)} to="/doctors">
-            ALL DOCTORS
-          </NavLink>
-          <NavLink onClick={() => setShowMenu(false)} to="/about">
-            ABOUT
-          </NavLink>
-          <NavLink onClick={() => setShowMenu(false)} to="/contact">
-            CONTACT
-          </NavLink>
+        <ul className="flex flex-col items-center gap-6 mt-12 text-lg font-medium">
+          {menuItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              onClick={() => setShowMenu(false)}
+            >
+              {item.name}
+            </NavLink>
+          ))}
 
           {token && userData ? (
             <>
@@ -147,7 +151,7 @@ const Navbar = () => {
                 }}
                 className="cursor-pointer"
               >
-                My Appointment
+                My Appointments
               </p>
               <p onClick={logout} className="cursor-pointer">
                 Logout
