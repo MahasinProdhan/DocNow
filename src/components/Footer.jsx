@@ -3,46 +3,55 @@ import { assets } from "../assets/assets";
 
 const Footer = () => {
   return (
-    <div className="md:mx-10">
-      <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 text-sm">
-        {/* LEFT SECTION */}
-        <div>
-          <img className="w-40 mb-5" src={assets.logo} alt="" />
-          <p className="w-full leading-6 md:w-2/3 text-grey-600">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book
-          </p>
-        </div>
-        {/* CENTER SECTION */}
-        <div>
-          <p className="mb-5 text-xl font-medium">COMPANY</p>
-          <ul className="flex flex-col gap-2 text-gary-600">
-            <li>Home </li>
-            <li>About Us</li>
-            <li>Delivery</li>
-            <li>Privecy POlicy</li>
-          </ul>
-        </div>
-        {/* RIGHT SECTION */}
-        <div>
-          <p className="mb-5 text-xl font-medium">GET IN TOUCH</p>
-          <ul className="flex flex-col gap-2 text-gary-600">
-            <li>+91 9732296975</li>
-            <li>mahasinprodhan2@gmail.com</li>
-          </ul>
-        </div>
-      </div>
+    <footer className="border-t bg-gray-50">
+      <div className="px-6 mx-auto max-w-7xl md:px-10">
+        <div className="grid grid-cols-1 gap-12 py-16 text-sm text-gray-600 sm:grid-cols-2 md:grid-cols-4">
+          {/* ABOUT */}
+          <div className="md:col-span-2">
+            <img className="w-40 mb-4" src={assets.logo} alt="Logo" />
+            <p className="max-w-md leading-6">
+              Book doctor appointments online with ease. Consult trusted
+              healthcare professionals, manage appointments, and make secure
+              online payments — all in one place.
+            </p>
+          </div>
 
-      {/* ------------------------COPYRIGHT TEXT------------------ */}
-      <div>
-        <hr />
-        <p className="py-5 text-sm text-center">
-          Copyright 2024 @ Greatstack.dev - All Right Reserved.
-        </p>
+          {/* QUICK LINKS */}
+          <div>
+            <p className="mb-4 text-base font-semibold text-gray-800">
+              Quick Links
+            </p>
+            <ul className="space-y-2">
+              <li className="cursor-pointer hover:text-black">Home</li>
+              <li className="cursor-pointer hover:text-black">Find Doctors</li>
+              <li className="cursor-pointer hover:text-black">
+                Book Appointment
+              </li>
+              <li className="cursor-pointer hover:text-black">
+                Privacy Policy
+              </li>
+            </ul>
+          </div>
+
+          {/* CONTACT */}
+          <div>
+            <p className="mb-4 text-base font-semibold text-gray-800">
+              Support
+            </p>
+            <ul className="space-y-2">
+              <li>📞 +91 97322 96975</li>
+              <li>✉️ mahasinprodhan2@gmail.com</li>
+              <li>💳 Secure Online Payments</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* COPYRIGHT */}
+        <div className="py-6 text-xs text-center text-gray-500 border-t">
+          © {new Date().getFullYear()} Mahasin Prodhan. All rights reserved.
+        </div>
       </div>
-    </div>
+    </footer>
   );
 };
 
